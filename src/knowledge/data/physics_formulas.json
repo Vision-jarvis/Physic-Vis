@@ -1,0 +1,163 @@
+[
+  {
+    "id": "mech_01",
+    "topic": "Classical Mechanics",
+    "concept": "Projectile Motion (Range)",
+    "latex_equations": [
+      "R = \\frac{v_0^2 \\sin(2\\theta)}{g}",
+      "y_{max} = \\frac{v_0^2 \\sin^2(\\theta)}{2g}",
+      "x(t) = v_0 \\cos(\\theta) t",
+      "y(t) = v_0 \\sin(\\theta) t - \\frac{1}{2}gt^2"
+    ],
+    "variables": {
+      "v_0": "Initial Velocity",
+      "\\theta": "Launch Angle",
+      "g": "Acceleration due to gravity (9.8 m/s^2)",
+      "R": "Horizontal Range",
+      "y_{max}": "Maximum Height",
+      "t": "Time"
+    },
+    "explanation": "Projectile motion describes the path of an object thrown near the earth's surface. The trajectory is a parabola due to constant gravity acting downwards.",
+    "manim_visual_cues": "Draw a parabolic arc. Label 'R' at the bottom. Animate a dot moving along the path. Show velocity vectors decomposing into x (constant) and y (changing) components."
+  },
+  {
+    "id": "mech_02",
+    "topic": "Classical Mechanics",
+    "concept": "Simple Pendulum",
+    "latex_equations": [
+      "T = 2\\pi \\sqrt{\\frac{L}{g}}",
+      "\\theta(t) = \\theta_{max} \\cos(\\sqrt{\\frac{g}{L}} t)"
+    ],
+    "variables": {
+      "T": "Period",
+      "L": "Length of the pendulum",
+      "g": "Gravity",
+      "\\theta": "Angular displacement"
+    },
+    "explanation": "A simple pendulum consists of a mass hanging from a string of length L. For small angles, it exhibits simple harmonic motion.",
+    "manim_visual_cues": "Show a fixed point, a line (string), and a dot (mass). Animate the swing. Add a graph of theta vs time next to it."
+  },
+  {
+    "id": "mech_03",
+    "topic": "Classical Mechanics",
+    "concept": "Double Pendulum (Lagrangian)",
+    "latex_equations": [
+      "\\mathcal{L} = T - V",
+      "T = \\frac{1}{2}m_1 L_1^2 \\dot{\\theta}_1^2 + \\frac{1}{2}m_2 [L_1^2 \\dot{\\theta}_1^2 + L_2^2 \\dot{\\theta}_2^2 + 2L_1 L_2 \\dot{\\theta}_1 \\dot{\\theta}_2 \\cos(\\theta_1 - \\theta_2)]",
+      "V = -(m_1+m_2)g L_1 \\cos\\theta_1 - m_2 g L_2 \\cos\\theta_2"
+    ],
+    "variables": {
+      "\\mathcal{L}": "Lagrangian",
+      "T": "Kinetic Energy",
+      "V": "Potential Energy",
+      "m_1, m_2": "Masses",
+      "L_1, L_2": "Lengths",
+      "\\theta_1, \\theta_2": "Angles"
+    },
+    "explanation": "The double pendulum is a classic example of a chaotic system. Its motion is governed by coupled non-linear differential equations derived from the Lagrangian.",
+    "manim_visual_cues": "Two attached pendulums. Trace the path of the second mass (m2) with a fading line to show the chaotic trajectory."
+  },
+  {
+    "id": "em_01",
+    "topic": "Electromagnetism",
+    "concept": "Lorentz Force Law",
+    "latex_equations": [
+      "\\vec{F} = q(\\vec{E} + \\vec{v} \\times \\vec{B})"
+    ],
+    "variables": {
+      "q": "Particle Charge",
+      "E": "Electric Field",
+      "v": "Velocity",
+      "B": "Magnetic Field",
+      "F": "Force"
+    },
+    "explanation": "Describes the force exerted on a charged particle moving through electric and magnetic fields. The magnetic force is always perpendicular to both velocity and magnetic field.",
+    "manim_visual_cues": "3D scene. Show a particle moving. Show E and B field lines. Show the Force vector updating in real-time as v changes."
+  },
+  {
+    "id": "em_02",
+    "topic": "Electromagnetism",
+    "concept": "Maxwell's Equations",
+    "latex_equations": [
+      "\\nabla \\cdot \\vec{E} = \\frac{\\rho}{\\varepsilon_0}",
+      "\\nabla \\cdot \\vec{B} = 0",
+      "\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}",
+      "\\nabla \\times \\vec{B} = \\mu_0 \\vec{J} + \\mu_0 \\varepsilon_0 \\frac{\\partial \\vec{E}}{\\partial t}"
+    ],
+    "variables": {
+      "E": "Electric Field",
+      "B": "Magnetic Field",
+      "\\rho": "Charge Density",
+      "J": "Current Density",
+      "\\varepsilon_0": "Vacuum Permittivity",
+      "\\mu_0": "Vacuum Permeability"
+    },
+    "explanation": "The set of four partial differential equations that describe how electric and magnetic fields are generated and altered by each other and by charges and currents.",
+    "manim_visual_cues": "Display the four equations prominently. Visualize the concept of divergence (source/sink) and curl (circulation) with vector fields."
+  },
+  {
+    "id": "optics_01",
+    "topic": "Optics",
+    "concept": "Snell's Law",
+    "latex_equations": [
+      "n_1 \\sin \\theta_1 = n_2 \\sin \\theta_2"
+    ],
+    "variables": {
+      "n_1, n_2": "Refractive Indices",
+      "\\theta_1": "Angle of Incidence",
+      "\\theta_2": "Angle of Refraction"
+    },
+    "explanation": "Describes the relationship between the angles of incidence and refraction, when referring to light or other waves passing through a boundary between two different isotropic media.",
+    "manim_visual_cues": "A horizontal line (interface). A light ray incoming and bending at the interface. Label angles relative to the normal (vertical dashed line)."
+  },
+  {
+    "id": "thermo_01",
+    "topic": "Thermodynamics",
+    "concept": "Ideal Gas Law",
+    "latex_equations": [
+      "PV = nRT"
+    ],
+    "variables": {
+      "P": "Pressure",
+      "V": "Volume",
+      "n": "Amount of substance (moles)",
+      "R": "Ideal Gas Constant",
+      "T": "Temperature"
+    },
+    "explanation": "The equation of state of a hypothetical ideal gas. It relates pressure, volume, and temperature.",
+    "manim_visual_cues": "A container with bouncing particles. Show P, V, T sliders. As V decreases, show particles hitting walls faster (P increases)."
+  },
+  {
+    "id": "quant_01",
+    "topic": "Quantum Mechanics",
+    "concept": "Schrödinger Equation (Time-Dependent)",
+    "latex_equations": [
+      "i \\hbar \\frac{\\partial}{\\partial t} \\Psi(\\mathbf{r},t) = \\hat{H} \\Psi(\\mathbf{r},t)"
+    ],
+    "variables": {
+      "\\Psi": "Wave Function",
+      "\\hbar": "Reduced Planck Constant",
+      "\\hat{H}": "Hamiltonian Operator",
+      "t": "Time",
+      "r": "Position"
+    },
+    "explanation": "The fundamental equation of physics for describing quantum mechanical behavior. It describes how the quantum state of a physical system changes over time.",
+    "manim_visual_cues": "Visualize a wave packet moving and spreading. Show the real and imaginary parts of Psi."
+  },
+  {
+    "id": "rel_01",
+    "topic": "Relativity",
+    "concept": "Time Dilation",
+    "latex_equations": [
+      "\\Delta t' = \\frac{\\Delta t}{\\sqrt{1 - \\frac{v^2}{c^2}}}"
+    ],
+    "variables": {
+      "\\Delta t'": "Time interval measured by moving observer",
+      "\\Delta t": "Proper time",
+      "v": "Relative velocity",
+      "c": "Speed of light"
+    },
+    "explanation": "The difference in the elapsed time measured by two clocks, either due to them having a velocity relative to each other or by there being a gravitational potential difference between their locations.",
+    "manim_visual_cues": "Two clocks side by side. One moves fast, the other stays. The moving clock ticks slower."
+  }
+]

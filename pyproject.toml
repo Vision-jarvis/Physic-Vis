@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "newton-architect"
+version = "0.1.0"
+description = "AI-powered Physics Simulation Engine using Google Gemini"
+authors = ["Antigravity"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.109.0"
+uvicorn = "^0.27.0"
+langgraph = "^0.0.10"
+langchain-google-genai = "^1.0.1"
+google-generativeai = "^0.5.0"
+pydantic = "^2.0.0"
+opencv-python = "^4.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
