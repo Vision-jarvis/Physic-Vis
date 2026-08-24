@@ -1,0 +1,265 @@
+
+
+==================================================
+🏃 STARTING RUN 1/1
+==================================================
+
+
+[1/1][1/5] 🎬 Processing: Classical Mechanics - Non-Uniform Circular Motion
+--- NODE: Architect (Director's Cut) ---
+   🎬 Director is dreaming...
+   ✨ Vision: Cosmic & Precise
+   📐 Architect is drafting...
+--- NODE: Physicist ---
+   🔍 Querying Physics Knowledge Base...
+   ✅ RAG Hit: Non-Uniform Circular Motion (Score: 0.84)
+--- NODE: Coder (RAG-Enhanced) ---
+   🔑 Extracted Keywords: ['Sphere', 'ValueTracker', 'Arrow', 'Dot3D', 'GrowArrow', 'MathTex', 'Write', 'Create', 'FadeIn', 'FadeOut', 'Wait', 'ThreeDScene', 'Circle']
+--- NODE: Spatial Auto-Fixer ---
+   🔧 Auto-fixed 8 spatial issues.
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_b980b010.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_b980b010.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_b980b010.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+                          │
+│                                                                                                  │
+│    43 │   │                                                                                      │
+│    44 │   │   self.play(                                                                         │
+│    45 │   │   │   theta.animate.set_value(0.25),                                                 │
+│ ❱  46 │   │   │   self.camera.frame.animate.set_center(particle.get_center()),                   │
+│    47 │   │   │   run_time=3,                                                                    │
+│    48 │   │   │   rate_func=rush_into  # Emphasizes acceleration                                 │
+│    49 │   │   )                                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'ThreeDCamera' object has no attribute 'frame'
+
+--- NODE: Healer (RAG-Enhanced) ---
+   🚑 Attempting Fix #1...
+   🩺 Healer identifying docs for: ['ThreeDCamera']
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_7e4a9fbf.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_7e4a9fbf.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_7e4a9fbf.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+b._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/output/scene_7e4a9fbf.py", line 1
+    Excellent. As a Senior Python Expert and Manim Debugger, I've analyzed the traceback and the provided code. The error `AttributeError: 'ThreeDCamera' object has no attribute 'frame'` is the key. In Manim, a `ThreeDScene` uses a `ThreeDCamera`, which does not have a `.frame` attribute like the camera in a 2D `Scene`. Camera manipulation in 3D is done by directly calling methods on or animating the camera object itself.
+                                                                                                                                                                                        ^
+SyntaxError: unterminated string literal (detected at line 1)
+
+--- NODE: Visual Validator ---
+   ❌ FAILED -> VisualError
+
+📊 Statistics saved to batch_statistics.json
+
+[1/1][2/5] 🎬 Processing: Electromagnetism - Quality Factor (Q) of a Resonant Circuit
+--- NODE: Architect (Director's Cut) ---
+   🎬 Director is dreaming...
+   ✨ Vision: Luminous & Precise
+   📐 Architect is drafting...
+--- NODE: Physicist ---
+   🔍 Querying Physics Knowledge Base...
+   ✅ RAG Hit: Quality Factor (Q) of a Resonant Circuit (Score: 0.85)
+--- NODE: Coder (RAG-Enhanced) ---
+   🔑 Extracted Keywords: ['VGroup', 'ValueTracker', 'Brace', 'Axes', 'FunctionGraph', 'MathTex', 'Write', 'MovingCameraScene', 'CameraFrame', 'Create', 'DashedLine', 'Line']
+--- NODE: Spatial Auto-Fixer ---
+   🔧 Auto-fixed 9 spatial issues.
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_445b461d.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_445b461d.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_445b461d.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+in scene_classes_from_file(file):
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 171, in scene_classes_from_file
+    module = get_module(file_path)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 65, in get_module
+    spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/output/scene_445b461d.py", line 1
+    An elegant, cinematic animation that masterfully visualizes the concept of Quality Factor in a resonant RLC circuit, featuring a dynamic graph transformation and a dramatic dolly-zoom camera effect.
+       ^^^^^^^
+SyntaxError: invalid syntax
+
+--- NODE: Healer (RAG-Enhanced) ---
+   🚑 Attempting Fix #1...
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_185aeab0.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_185aeab0.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_185aeab0.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+
+Rendering timed out after 180 seconds
+--- NODE: Visual Validator ---
+   ❌ FAILED -> VisualError
+
+📊 Statistics saved to batch_statistics.json
+
+[1/1][3/5] 🎬 Processing: Classical Mechanics - Potential Energy as a Scalar Field
+--- NODE: Architect (Director's Cut) ---
+   🎬 Director is dreaming...
+   ✨ Vision: Contemplative & Majestic
+   📐 Architect is drafting...
+--- NODE: Physicist ---
+   🔍 Querying Physics Knowledge Base...
+   ✅ RAG Hit: Potential Energy as a Scalar Field (Score: 0.83)
+--- NODE: Coder (RAG-Enhanced) ---
+   🔑 Extracted Keywords: ['Sphere', 'ValueTracker', 'Transform', 'Arrow3D', 'GrowArrow', 'MathTex', 'ThreeDAxes', 'Write', 'Create', 'FadeIn', 'TracedPath', 'Wait', 'FadeOut', 'ThreeDScene', 'Surface']
+--- NODE: Spatial Auto-Fixer ---
+   🔧 Auto-fixed 3 spatial issues.
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_c475b6f0.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_c475b6f0.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_c475b6f0.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+r/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 171, in scene_classes_from_file
+    module = get_module(file_path)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 65, in get_module
+    spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/output/scene_c475b6f0.py", line 3
+    This script visualizes a 3D potential energy surface, showing how the force on a particle is derived from the negative gradient of the potential field. The particle then animates, rolling down the surface, its path dynamically calculated based on the local force vector.
+                             ^
+SyntaxError: invalid decimal literal
+
+--- NODE: Healer (RAG-Enhanced) ---
+   🚑 Attempting Fix #1...
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_078d7f05.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_078d7f05.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_078d7f05.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+
+Rendering timed out after 180 seconds
+--- NODE: Visual Validator ---
+   ❌ FAILED -> VisualError
+
+📊 Statistics saved to batch_statistics.json
+
+[1/1][4/5] 🎬 Processing: Optics - Malus's Law
+--- NODE: Architect (Director's Cut) ---
+   🎬 Director is dreaming...
+   ✨ Vision: Luminous & Analytical
+   📐 Architect is drafting...
+--- NODE: Physicist ---
+   🔍 Querying Physics Knowledge Base...
+   ✅ RAG Hit: Malus's Law (Score: 0.83)
+--- NODE: Coder (RAG-Enhanced) ---
+   🔑 Extracted Keywords: ['VGroup', 'ValueTracker', 'Line', 'Axes', 'Tex', 'Vector', 'MathTex', 'Arc', 'Write', 'TracedPath', 'Create', 'ParametricFunction', 'Wait', 'ThreeDScene', 'Circle', 'Dot']
+--- NODE: Spatial Auto-Fixer ---
+   🔧 Auto-fixed 1 spatial issues.
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_e27b3f09.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_e27b3f09.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_e27b3f09.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+                        │
+│                                                                                                  │
+│    40 │   │   )                                                                                  │
+│    41 │   │                                                                                      │
+│    42 │   │   # Initial animation                                                                │
+│ ❱  43 │   │   self.play(self.camera.animate.move_to([0, 0, 10]))                                 │
+│    44 │   │   self.add(incoming_wave_vec, incoming_wave_trail, incoming_wave_label)              │
+│    45 │   │   self.play(time.animate.set_value(8), run_time=4, rate_func=linear)                 │
+│    46                                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'ThreeDCamera' object has no attribute 'animate'
+
+--- NODE: Healer (RAG-Enhanced) ---
+   🚑 Attempting Fix #1...
+   🩺 Healer identifying docs for: ['ThreeDCamera']
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_3dd9458e.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_3dd9458e.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_3dd9458e.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+
+    for SceneClass in scene_classes_from_file(file):
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 171, in scene_classes_from_file
+    module = get_module(file_path)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 65, in get_module
+    spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/output/scene_3dd9458e.py", line 1
+    An `AttributeError: 'ThreeDCamera' object has no attribute 'animate'` occurs because the `ThreeDCamera` in Manim is not a `Mobject` and does not support the `.animate` syntax directly.
+       ^
+SyntaxError: invalid syntax
+
+--- NODE: Visual Validator ---
+   ❌ FAILED -> VisualError
+
+📊 Statistics saved to batch_statistics.json
+
+[1/1][5/5] 🎬 Processing: Thermodynamics - Maxwell-Boltzmann Distribution
+--- NODE: Architect (Director's Cut) ---
+   🎬 Director is dreaming...
+   ✨ Vision: Contemplative & Luminous
+   📐 Architect is drafting...
+--- NODE: Physicist ---
+   🔍 Querying Physics Knowledge Base...
+   ✅ RAG Hit: Maxwell-Boltzmann Distribution (Score: 0.82)
+--- NODE: Coder (RAG-Enhanced) ---
+   🔑 Extracted Keywords: ['FunctionGraph', 'FadeIn', 'Wait', 'FadeOut', 'DecimalNumber', 'Triangle', 'ValueTracker', 'MathTex', 'Write', 'TracedPath', 'Dot', 'Create', 'DashedLine', 'NumberLine', 'VGroup', 'Transform', 'Axes', 'Rectangle', 'Tex', 'BarChart']
+--- NODE: Spatial Auto-Fixer ---
+   🔧 Auto-fixed 2 spatial issues.
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_70325cff.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_70325cff.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_70325cff.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+ocal/lib/python3.11/site-packages/manim/utils/module_ops.py", line 171, in scene_classes_from_file
+    module = get_module(file_path)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/manim/utils/module_ops.py", line 65, in get_module
+    spec.loader.exec_module(module)
+  File "<frozen importlib._bootstrap_external>", line 936, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1074, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/output/scene_70325cff.py", line 1
+    An elegant, feature-rich, and cinematic animation that fully implements the Director's Vision. This code is designed for Manim v0.19.1 and adheres to all specified rules and best practices.
+                                                                                        ^
+SyntaxError: unterminated string literal (detected at line 1)
+
+--- NODE: Healer (RAG-Enhanced) ---
+   🚑 Attempting Fix #1...
+--- NODE: Renderer (Docker) ---
+   🎬 executing Manim...
+--- EXECUTOR: Writing code to /app/output/scene_db49222c.py ---
+--- EXECUTOR: Running Locally (In-Docker): ['manim', '-qm', 'scene_db49222c.py', 'PhysicsScene'] ---
+--- EXECUTOR: Running Command: ['manim', '-qm', 'scene_db49222c.py', 'PhysicsScene'] ---
+   ❌ Render Failed. Logs:
+
+Rendering timed out after 180 seconds
+--- NODE: Visual Validator ---
+   ❌ FAILED -> VisualError
+
+📊 Statistics saved to batch_statistics.json
+
+📊 Statistics saved to batch_statistics.json

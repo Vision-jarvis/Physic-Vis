@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  renderer:
+    build: .
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    command: manim -qm potential_energy.py PotentialEnergyField

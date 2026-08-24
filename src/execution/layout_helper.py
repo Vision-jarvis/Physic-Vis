@@ -5,11 +5,14 @@ from manim import *
 FRAME_WIDTH = 13.5  # Slightly less than 14.22 for safety
 FRAME_HEIGHT = 7.5  # Slightly less than 8.0 for safety
 
-def smart_position(mobject, direction=ORIGIN, buff=0.5):
+def smart_position(mobject, location=None, direction=None, buff=0.5):
     """
     Ensures an object stays inside the camera frame.
-    Usage: smart_position(my_text)
+    Usage: smart_position(my_text) or smart_position(my_text, location=UP)
     """
+    # 0. Optional Move
+    if location is not None:
+        mobject.move_to(location)
     # 1. Auto-Scale if too big
     if mobject.width > FRAME_WIDTH:
         mobject.scale_to_fit_width(FRAME_WIDTH)

@@ -2,6 +2,7 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from src.core.llm import get_llm
 from src.graph.state import AgentState
 import json
+from src.utils.llm_helpers import extract_text_content
 
 # --- PASS 1: THE DIRECTOR ---
 DIRECTOR_SYSTEM_PROMPT = """You are the **Creative Director** for a high-end educational science channel (like Kurtzgesagt or 3Blue1Brown). 
@@ -69,12 +70,18 @@ async def architect_node(state: AgentState):
     
     # Try to parse JSON, fallback to raw text if needed
     try:
-        director_vision = director_response.content.replace("```json", "").replace("```", "").strip()
+        content = director_response.content
+        if isinstance(content, list):
+            content = "".join([str(c) for c in content])
+        director_vision = content.replace("```json", "").replace("```", "").strip()
         vision_json = json.loads(director_vision)
         print(f"   ✨ Vision: {vision_json.get('mood', 'Undefined')}")
     except:
         print("   ⚠️ Director output unstructured, using raw text.")
-        director_vision = director_response.content
+        content = director_response.content
+        if isinstance(content, list):
+            content = "".join([str(c) for c in content])
+        director_vision = content
 
     # --- PASS 2: THE ARCHITECT ---
     llm_architect = get_llm(model_type="pro") # High reasoning
@@ -95,6 +102,7 @@ async def architect_node(state: AgentState):
         HumanMessage(content=architect_input)
     ])
     
-    final_plan = architect_response.content
+    content = extract_text_content(architect_response)
+    final_plan = content
     
     return {"plan": final_plan}

@@ -14,7 +14,7 @@ def renderer_node(state: AgentState):
         return {"error": "No code to render."}
     
     # Initialize Runner
-    runner = LocalDockerRunner(image_name="manim-renderer:v0.18")
+    runner = LocalDockerRunner(image_name="physicsengine-renderer:latest")
     
     print("   🎬 executing Manim...")
     status, logs, video_path = runner.run_code(code)
@@ -39,7 +39,7 @@ def renderer_node(state: AgentState):
                 print(f"   ⚠️ Failed to log fix to KB: {e}")
             
         return {
-            "video_path": video_path,
+            "render_output_path": video_path,
             "error": None, # Clear any previous errors
             "logs": logs
         }
@@ -48,5 +48,5 @@ def renderer_node(state: AgentState):
         return {
             "error": "RuntimeError", # Tag as runtime error
             "logs": logs,
-            "video_path": None
+            "render_output_path": None
         }

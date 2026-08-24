@@ -1,6 +1,6 @@
 from typing import TypedDict, Optional, List, Dict, Any
 
-class AgentState(TypedDict):
+class AgentState(TypedDict, total=False):
     """
     The memory state of the graph passed between nodes.
     """
@@ -17,7 +17,15 @@ class AgentState(TypedDict):
     
     # Execution Output
     logs: Optional[str]       # STDERR/STDOUT from Docker
-    video_path: Optional[str] # Path to the final MP4
+    render_output_path: Optional[str] # Path to the final MP4
+    
+    # 3.0 Upgrades (Pedagogical)
+    concept_graph: Optional[Dict[str, Any]] # Prerequisites from ConceptMapper
+    color_scheme: Optional[Dict[str, str]]  # Semantic color mapping
+    camera_instructions: Optional[Dict[str, Any]] # Camera & Pacing directives
+    analogy: Optional[Dict[str, str]]       # Feynman's simplifications
+    voiceover_script: Optional[Dict[str, Any]]         # Final TTS script (timestamped)
+    parameter_sweep: Optional[Dict[str, Any]] # For Logic Explorer
     
     # Metadata
     retry_count: int          # To prevent infinite loops

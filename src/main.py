@@ -16,7 +16,25 @@ load_dotenv()
 async def main():
     parser = argparse.ArgumentParser(description="Newton's Architect - CLI")
     parser.add_argument("--prompt", type=str, required=True, help="The physics simulation to generate")
+    parser.add_argument("--multi-act", action="store_true", help="Generate a multi-act long-form video.")
     args = parser.parse_args()
+    
+    if args.multi_act:
+        from src.core.orchestrator import MultiActOrchestrator
+        from src.graph.nodes.concept_mapper import concept_mapper_node
+        from src.graph.state import AgentState
+        
+        runner = MultiActOrchestrator()
+        print("🧠 Generating Concept Graph...")
+        # Create a dummy state just for concept mapper
+        dummy_state = AgentState(user_prompt=args.prompt, concept_graph={}, retry_count=0)
+        
+        concept_state = await concept_mapper_node(dummy_state)
+        
+        final_video = await runner.generate_video(args.prompt, concept_state["concept_graph"])
+        print(f"🎉 Final Video: {final_video}")
+        return
+
     
     # 1. build graph
     app = create_graph()
@@ -36,7 +54,7 @@ async def main():
         return
     
     # 3. Output Result
-    video_path = result_state.get("video_path")
+    video_path = result_state.get("render_output_path")
     error = result_state.get("error")
     logs = result_state.get("logs", "No logs")
     code = result_state.get("code", "No code")

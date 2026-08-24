@@ -9,7 +9,7 @@ class ManimExecutor:
     Executes the generated Manim code inside a local Docker container.
     Replaces LocalDockerRunner with robust UTF-8 handling.
     """
-    def __init__(self, image_name: str = "manim-renderer:v0.18", output_dir: str = "output", timeout: int = 180):
+    def __init__(self, image_name: str = "manim-renderer:v0.18", output_dir: str = "output", timeout: int = 1200):
         self.output_dir = Path(output_dir).resolve()
         self.timeout = timeout
         self.container_name = image_name
@@ -52,19 +52,44 @@ class ManimExecutor:
         """
         Execute Manim code in Docker with proper UTF-8 handling.
         """
-        # Build Docker command
-        # Build command with explicit 'manim' executable
-        cmd = [
-            "docker", "run",
-            "--rm",
-            "--stop-timeout", "10",
-            "-v", f"{self.output_dir}:/app",
-            self.container_name,
-            "manim",  # Explicitly call manim
-            "-qm",
-            f"/app/{scene_file}", # Start with /app/ to avoid path issues
-            scene_name
-        ]
+        # Build Docker command or Local command
+        # Check if running inside Docker (standard check)
+        is_in_docker = os.path.exists('/.dockerenv')
+        
+        # Default to Docker unless explicitly disabled via USE_DOCKER=false in .env
+        use_docker = os.getenv("USE_DOCKER", "true").lower() == "true"
+        force_local = not use_docker
+        
+        # Ensure static_ffmpeg is available in PATH for subprocess
+        try:
+            import static_ffmpeg
+            static_ffmpeg.add_paths()
+        except ImportError:
+            pass
+
+        if is_in_docker or force_local:
+             # Run Manim directly (Agent is already containerized or running locally on Windows)
+             cmd = [
+                "manim",
+                "-ql",  # Low quality for tests (faster)
+                scene_file,
+                scene_name
+             ]
+             print(f"--- EXECUTOR: Running Locally (Force={force_local}): {cmd} ---")
+        else:
+            # Run via Docker (Linux Host default)
+            cmd = [
+                "docker", "run",
+                "--rm",
+                "--stop-timeout", "10",
+                "-v", f"{self.output_dir}:/app",
+                self.container_name,
+                "manim",
+                "-ql",  # Low quality
+                f"/app/{scene_file}", 
+                scene_name
+            ]
+            print(f"--- EXECUTOR: Running via Docker Engine: {cmd} ---")
         
         print(f"--- EXECUTOR: Running Command: {cmd} ---")
 
@@ -79,6 +104,7 @@ class ManimExecutor:
         
         try:
             # THE FIX: Use encoding='utf-8' AND errors='replace'
+            # Also use stdin=subprocess.DEVNULL to prevent hangs waiting for input
             result = subprocess.run(
                 cmd,
                 capture_output=True,
@@ -87,7 +113,8 @@ class ManimExecutor:
                 errors='replace',        # ← Replace invalid chars with 
                 timeout=self.timeout,
                 env=env,
-                cwd=str(self.output_dir)
+                cwd=str(self.output_dir),
+                stdin=subprocess.DEVNULL # ← Prevent hangs
             )
             
             exit_code = result.returncode

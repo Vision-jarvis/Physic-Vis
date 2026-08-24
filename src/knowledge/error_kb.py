@@ -39,11 +39,16 @@ class ErrorKnowledgeBase:
             self.index = None
             return
 
-        self.pc = Pinecone(api_key=api_key)
-        
-        # Check/Create Index
-        self._ensure_index()
-        self.index = self.pc.Index(INDEX_NAME)
+        try:
+            self.pc = Pinecone(api_key=api_key)
+            
+            # Check/Create Index
+            self._ensure_index()
+            self.index = self.pc.Index(INDEX_NAME)
+        except Exception as e:
+            print(f"⚠️ Pinecone Init Failed in ErrorKB: {e}")
+            self.pc = None
+            self.index = None
     
     def _ensure_index(self):
         """Create Pinecone index if it doesn't exist."""
@@ -53,7 +58,7 @@ class ErrorKnowledgeBase:
                 print(f"📦 Creating Pinecone index '{INDEX_NAME}'...")
                 self.pc.create_index(
                     name=INDEX_NAME, 
-                    dimension=768, # Dimension for models/embedding-001
+                    dimension=768, # Dimension for models/text-embedding-004
                     metric="cosine",
                     spec=ServerlessSpec(cloud="aws", region="us-east-1")
                 )
@@ -125,6 +130,7 @@ class ErrorKnowledgeBase:
         if not self.index:
             return None
 
+        # Get embedding
         embedding = self._get_embedding(error_message)
         if embedding is None:
             return None
@@ -153,7 +159,7 @@ class ErrorKnowledgeBase:
         except Exception as e:
             print(f"⚠️ Pinecone Query Error: {e}")
             return None
-    
+            
     def _hash_error(self, error_message: str) -> str:
         """
         Create a deterministic hash for an error message.

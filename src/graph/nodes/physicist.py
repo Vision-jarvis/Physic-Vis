@@ -1,20 +1,14 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from pydantic import BaseModel, Field
 from typing import List, Dict
-from src.core.llm import get_llm, get_embeddings
+from src.core.llm import get_embeddings
 from src.graph.state import AgentState
+from src.core.cache import cached_llm_call, cached_rag_retrieval
 import json
 import os
 from pinecone import Pinecone
 
-# Define the Structured Output Schema for Gemini
-class PhysicsOutput(BaseModel):
-    principle: str = Field(description="The core physics principle involved (e.g. 'Conservation of Momentum')")
-    equations: List[str] = Field(description="List of LaTeX equations (max 3) crucial to the scene.")
-    explanation: str = Field(description="A clear, undergraduate-level explanation of the concept.")
-    variables: Dict[str, str] = Field(description="Key variables and their units (e.g. {'F': 'Force (N)'})")
-    placement: str = Field(description="Suggested screen placement for the text (e.g. 'top_left', 'bottom_right')")
-
+# --- PROMPTS ---
 PHYSICIST_SYSTEM_PROMPT = """You are Dr. Richard Feynman, a world-class Physics Educator.
 Your goal is to identify the core physics principles behind a requested animation and provide the EXACT LaTeX equations needed to display them.
 
@@ -36,30 +30,23 @@ Example Output:
 }
 """
 
-async def physicist_node(state: AgentState):
+def retrieve_physics_context(query: str) -> str:
     """
-    Node B: The Physicist
-    Uses Gemini 1.5 Pro to derive equations and explanations.
+    Helper function for RAG that wraps Pinecone logic.
     """
-    print("--- NODE: Physicist ---")
-    user_prompt = state["user_prompt"]
-    plan = state.get("plan", "No specific plan provided.")
-    
-    # --- RAG RETRIEVAL START ---
-    rag_context = ""
     try:
-        print("   🔍 Querying Physics Knowledge Base...")
+        print(f"   🔍 Querying Pinecone: '{query}'")
         embeddings = get_embeddings()
         pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
         index = pc.Index("physics-knowledge")
         
-        vector = embeddings.embed_query(user_prompt)
+        vector = embeddings.embed_query(query)
         results = index.query(vector=vector, top_k=1, include_metadata=True)
         
         if results['matches'] and results['matches'][0]['score'] > 0.7:
              meta = results['matches'][0]['metadata']
              print(f"   ✅ RAG Hit: {meta['concept']} (Score: {results['matches'][0]['score']:.2f})")
-             rag_context = f"""
+             return f"""
              <MATCHED_FORMULAS>
              Concept: {meta['concept']}
              Equations (Verified): {meta.get('latex_equations', '[]')}
@@ -71,43 +58,85 @@ async def physicist_node(state: AgentState):
              </MATCHED_FORMULAS>
              """
         else:
-            print("   ⚠️ No relevant knowledge found (Score < 0.7). Relying on Gemini knowledge.")
+            return "" # No hit
             
     except Exception as e:
-        print(f"   ❌ RAG Check Failed: {e}")
-    # --- RAG RETRIEVAL END ---
+        print(f"   ❌ RAG Retrieval Failed: {e}")
+        return ""
+
+from src.utils.llm_helpers import extract_text_content, strip_code_fences
+
+async def physicist_node(state: AgentState):
+    """
+    Node B: The Physicist (Optimized with Caching)
+    """
+    print("--- NODE: Physicist (Cached) ---")
+    user_prompt = state["user_prompt"]
+    plan = state.get("plan", "No specific plan provided.")
     
-    llm = get_llm(model_type="pro")
+    # 1. Cached RAG
+    rag_context = cached_rag_retrieval(
+        query=user_prompt,
+        index_name="physics-knowledge",
+        retriever_func=retrieve_physics_context
+    )
     
-    # Force the model to output structured JSON
-    structured_llm = llm.with_structured_output(PhysicsOutput)
-    
+    if rag_context:
+        print("   ✅ Using Cached/Retrieved Physics Context.")
+    else:
+        print("   ⚠️ No Physics Context found (Gemini Reasoning Only).")
+
+    # 2. Cached LLM
     input_text = f"""
     User Request: {user_prompt}
     Architect's Plan: {plan}
     
     {rag_context}
     
-    Identify the physics and equations.
+    Identify the physics and equations. Return Valid JSON.
     """
     
-    messages = [
-        SystemMessage(content=PHYSICIST_SYSTEM_PROMPT),
-        HumanMessage(content=input_text)
-    ]
+    response_str = await cached_llm_call(
+        prompt=input_text,
+        system_prompt=PHYSICIST_SYSTEM_PROMPT,
+        temperature=0.4, # Slightly different to ensure new cache key
+        model_type="flash" # Use fast/stable model
+    )
     
+    # Parse JSON
     try:
-        response = await structured_llm.ainvoke(messages)
-        return {"physics_code": response.dict()}
+        # Use robust extraction
+        content = strip_code_fences(extract_text_content(response_str))
+        physics_data = json.loads(content)
+        print("   ⚛️  Physics Data Generated.")
+        return {"physics_code": physics_data}
     except Exception as e:
-        print(f"Physicist Node Error: {e}")
-        # Fallback for prototype if LLM fails (though retry logic should handle this later)
-        return {
-            "physics_code": {
-                "principle": "Error in Physics Node",
-                "equations": [],
-                "explanation": f"Failed to generate physics: {str(e)}",
-                "variables": {},
-                "placement": "top_left"
+        print(f"   ❌ Physicist Parse Error (JSON): {e}")
+        
+        # Fallback: Try repairing the JSON
+        from src.graph.utils.response_handler import repair_json
+        
+        # In case the content was a list, or normal JSON strings.
+        # physicist is returning code, not structured json in the base case so we just use strip_code_fences.
+        try:
+            from src.utils.llm_helpers import extract_text_content
+            text_content = extract_text_content(response_str) # Use response_str
+        except Exception:
+            text_content = response_str # Fallback if extract_text_content fails or is not needed
+
+        # Corrected line: apply strip_code_fences then repair_json
+        clean_json = repair_json(strip_code_fences(text_content))
+        try:
+             physics_data = json.loads(clean_json)
+             print("   ⚠️ Parsed after repair_json().")
+             return {"physics_code": physics_data}
+        except Exception as e2:
+             print(f"   ❌ Physicist Parse Error (Repair Failed): {e2}")
+             # Last resort: text explanation
+             return {
+                "physics_code": {
+                    "principle": "Analysis Error", 
+                    "equations": [], 
+                    "explanation": f"Could not parse physics data: {user_prompt}"
+                }
             }
-        }

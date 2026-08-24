@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from pinecone import Pinecone, ServerlessSpec
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+from src.core.llm import get_embeddings
 from dotenv import load_dotenv
 import time
 
@@ -230,7 +231,7 @@ def ingest():
         return
 
     # 2. Embed & Upsert
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GEMINI_API_KEY)
+    embeddings = get_embeddings()
     
     # Prepare texts and metadatas
     texts = [item["text"] for item in data]

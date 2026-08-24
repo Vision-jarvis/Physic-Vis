@@ -11,16 +11,16 @@ from typing import Dict, List, Any
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from dotenv import load_dotenv
-from src.graph.workflow import create_graph
-
 load_dotenv()
+
+from src.graph.workflow import create_graph
 
 # Configuration
 INPUT_FILE = "src/knowledge/data/comprehensive_physics.json"
 OUTPUT_DIR = "batch_output"
 STATS_FILE = "batch_statistics.json"
-BATCH_SIZE = 55
-NUM_RUNS = 2
+BATCH_SIZE = 5
+NUM_RUNS = 1
 
 class BatchStatistics:
     def __init__(self):
@@ -47,11 +47,11 @@ class BatchStatistics:
     def log_item(self, concept: str, result: Dict[str, Any]):
         item_stats = {
             "concept": concept,
-            "status": "SUCCESS" if result.get("video_path") else "FAILED",
+            "status": "SUCCESS" if result.get("render_output_path") else "FAILED",
             "retry_count": result.get("retry_count", 0),
             "fix_method": result.get("fix_method"),
             "original_error": result.get("original_error"),
-            "final_error": result.get("error") if not result.get("video_path") else None
+            "final_error": result.get("error") if not result.get("render_output_path") else None
         }
         
         # Update Counters
@@ -138,7 +138,7 @@ async def run_batch():
                 result = await app.ainvoke(inputs, {"recursion_limit": 50})
                 
                 # Process Result
-                video_file = result.get("video_path")
+                video_file = result.get("render_output_path")
                 if video_file and os.path.exists(video_file):
                     final_path = os.path.join(OUTPUT_DIR, f"{safe_name}_run{run_idx}.mp4")
                     shutil.copy(video_file, final_path)
